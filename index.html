@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en-US">
+
+  <head>
+    <meta charset='utf-8'>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,maximum-scale=2">
+    <link rel="stylesheet" type="text/css" media="screen" href="/yaml/assets/css/style.css?v=036cbac44d1d4e6459a313c2c5aa2b6009da0d2c">
+
+<!-- Begin Jekyll SEO tag v2.6.1 -->
+<title>YamlPeek MSBuild Task | yaml</title>
+<meta name="generator" content="Jekyll v3.9.0" />
+<meta property="og:title" content="YamlPeek MSBuild Task" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="YamlPeek MSBuild Task" />
+<meta property="og:description" content="YamlPeek MSBuild Task" />
+<meta property="og:site_name" content="yaml" />
+<script type="application/ld+json">
+{"headline":"YamlPeek MSBuild Task","@type":"WebSite","url":"/yaml/","description":"YamlPeek MSBuild Task","name":"yaml","@context":"https://schema.org"}</script>
+<!-- End Jekyll SEO tag -->
+
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/devlooped/yaml">View on GitHub</a>
+
+          <h1 id="project_title">yaml</h1>
+          <h2 id="project_tagline">YamlPeek MSBuild Task</h2>
+
+          
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1 id="-yamlpeek-msbuild-task"><img src="https://raw.githubusercontent.com/devlooped/yaml/main/assets/img/icon.png" alt="Yaml Icon" /> YamlPeek MSBuild Task</h1>
+
+<p><a href="https://www.nuget.org/packages/YamlPeek"><img src="https://img.shields.io/nuget/vpre/YamlPeek.svg?color=royalblue" alt="Version" /></a>
+<a href="https://www.nuget.org/packages/YamlPeek"><img src="https://img.shields.io/nuget/dt/YamlPeek.svg?color=green" alt="Downloads" /></a>
+<a href="https://github.com/devlooped/yaml/blob/main/license.txt"><img src="https://img.shields.io/github/license/devlooped/yaml.svg?color=blue" alt="License" /></a>
+<a href="https://github.com/devlooped/yaml/actions"><img src="https://github.com/devlooped/yaml/workflows/build/badge.svg?branch=main" alt="Build" /></a></p>
+
+<p>Read values from yaml files using JSONPath query expressions.</p>
+
+<p>Usage:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="nt">&lt;YamlPeek</span> <span class="na">ContentPath=</span><span class="s">"[YAML_FILE]"</span> <span class="na">Query=</span><span class="s">"[JSONPath]"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;Output</span> <span class="na">TaskParameter=</span><span class="s">"Result"</span> <span class="na">PropertyName=</span><span class="s">"Value"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/YamlPeek&gt;</span>
+  <span class="nt">&lt;YamlPeek</span> <span class="na">Content=</span><span class="s">"[YAML]"</span> <span class="na">Query=</span><span class="s">"[JSONPath]"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;Output</span> <span class="na">TaskParameter=</span><span class="s">"Result"</span> <span class="na">ItemName=</span><span class="s">"Values"</span> <span class="nt">/&gt;</span>
+  <span class="nt">&lt;/YamlPeek&gt;</span>
+</code></pre></div></div>
+
+<p>Parameters:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Parameter</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Content</td>
+      <td>Optional <code class="language-plaintext highlighter-rouge">string</code> parameter.<br />Specifies the YAML input as a string.</td>
+    </tr>
+    <tr>
+      <td>ContentPath</td>
+      <td>Optional <code class="language-plaintext highlighter-rouge">ITaskItem</code> parameter.<br />Specifies the YAML input as a file path.</td>
+    </tr>
+    <tr>
+      <td>Query</td>
+      <td>Required <code class="language-plaintext highlighter-rouge">string</code> parameter.<br />Specifies the <a href="https://goessner.net/articles/JsonPath/">JSONPath</a> expression.</td>
+    </tr>
+    <tr>
+      <td>Result</td>
+      <td>Output <code class="language-plaintext highlighter-rouge">ITaskItem[]</code> parameter.<br />Contains the results that are returned by the task.</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>You can either provide the path to a YAML file via <code class="language-plaintext highlighter-rouge">ContentPath</code> or 
+provide the straight YAML content to <code class="language-plaintext highlighter-rouge">Content</code>. The <code class="language-plaintext highlighter-rouge">Query</code> is a 
+<a href="https://goessner.net/articles/JsonPath/">JSONPath</a> expression that is evaluated 
+and returned via the <code class="language-plaintext highlighter-rouge">Result</code> task parameter. You can assign the resulting 
+value to either a property (i.e. for a single value) or an item name (i.e. 
+for multiple results).</p>
+
+<p>YAML object properties are automatically projected as item metadata when 
+assigning the resulting value to an item. For example, given the following JSON:</p>
+
+<div class="language-yaml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="na">http</span><span class="pi">:</span>
+  <span class="na">host</span><span class="pi">:</span> <span class="s">localhost</span>
+  <span class="na">port</span><span class="pi">:</span> <span class="m">80</span>
+  <span class="na">ssl</span><span class="pi">:</span> <span class="no">true</span>
+</code></pre></div></div>
+
+<p>You can read the entire <code class="language-plaintext highlighter-rouge">http</code> value as an item with each property as a metadata 
+value with:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;YamlPeek</span> <span class="na">ContentPath=</span><span class="s">"host.yaml"</span> <span class="na">Query=</span><span class="s">"$.http"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;Output</span> <span class="na">TaskParameter=</span><span class="s">"Result"</span> <span class="na">ItemName=</span><span class="s">"Http"</span> <span class="nt">/&gt;</span>
+<span class="nt">&lt;/YamlPeek&gt;</span>
+</code></pre></div></div>
+
+<p>The <code class="language-plaintext highlighter-rouge">Http</code> item will have the following values (if it were declared in MSBuild):</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ItemGroup&gt;</span>
+    <span class="nt">&lt;Http</span> <span class="na">Include=</span><span class="s">"[item raw json]"</span><span class="nt">&gt;</span>
+        <span class="nt">&lt;host&gt;</span>localhost<span class="nt">&lt;/host&gt;</span>
+        <span class="nt">&lt;port&gt;</span>80<span class="nt">&lt;/port&gt;</span>
+        <span class="nt">&lt;ssl&gt;</span>true<span class="nt">&lt;/ssl&gt;</span>
+    <span class="nt">&lt;/Http&gt;</span>
+<span class="nt">&lt;/ItemGroup&gt;</span>
+</code></pre></div></div>
+
+<p>These item metadata values could be read as MSBuild properties as follows, for example:</p>
+
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;PropertyGroup&gt;</span>
+    <span class="nt">&lt;Host&gt;</span>@(Http -&gt; '%(host)')<span class="nt">&lt;/Host&gt;</span>
+    <span class="nt">&lt;Port&gt;</span>@(Http -&gt; '%(port)')<span class="nt">&lt;/Port&gt;</span>
+    <span class="nt">&lt;Ssl&gt;</span>@(Http -&gt; '%(ssl)')<span class="nt">&lt;/Ssl&gt;</span>
+<span class="nt">&lt;/PropertyGroup&gt;</span>
+</code></pre></div></div>
+
+<p>In addition to the explicitly opted in object properties, the entire node is available 
+as raw YAML via the special <code class="language-plaintext highlighter-rouge">_</code> (single underscore) metadata item.</p>
+
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        
+        <p class="copyright">yaml maintained by <a href="https://github.com/devlooped">devlooped</a></p>
+        
+        <p>Published with <a href="https://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+  </body>
+</html>
